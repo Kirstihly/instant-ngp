@@ -177,6 +177,8 @@ if __name__ == "__main__":
 		n_steps = 100000
 
 	tqdm_last_update = 0
+	loss_step = 1e-8
+	prev_loss = float('inf')
 	if n_steps > 0:
 		with tqdm(desc="Training", total=n_steps, unit="step") as t:
 			while testbed.frame():
@@ -200,6 +202,11 @@ if __name__ == "__main__":
 					t.set_postfix(loss=testbed.loss)
 					old_training_step = testbed.training_step
 					tqdm_last_update = now
+					if abs(prev_loss - testbed.loss) < loss_step and prev_loss != testbed.loss:
+						print('Early stopping: Loss changes from', prev_loss, 'to', testbed.loss)
+						break
+					else:
+						prev_loss = testbed.loss
 
 	if args.save_snapshot:
 		print("Saving snapshot ", args.save_snapshot)
