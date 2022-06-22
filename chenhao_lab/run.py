@@ -194,8 +194,8 @@ if __name__ == "__main__":
 	testbed = ngp.Testbed(mode)
 	testbed.nerf.sharpen = float(args.sharpen)
 
-	train_transforms = os.path.join(args.scene, 'transforms_train_config_4.json') 
-	test_transforms = os.path.join(args.scene, 'transforms_test_focus.json')
+	train_transforms = os.path.join(args.scene, 'transforms.json')
+	test_transforms = os.path.join(args.scene, 'transforms.json')
 
 	testbed.load_training_data(train_transforms)
 	testbed.reload_network_from_file(network)
